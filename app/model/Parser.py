@@ -1,6 +1,8 @@
 import re
 from transformers import AutoTokenizer, AutoModelForTokenClassification, pipeline
 
+from app.model.Whitelist import get_data
+
 class Parser:
 
     nlp : pipeline
@@ -35,5 +37,11 @@ class Parser:
             processedList = self._intermediate_parser(sentence, processedList, filter['regex'], filter['tag'])
 
         #White list
+        whitelist = get_data()
 
-        return self.nlp(sentence)
+        newList = []
+        for element in processedList:
+            if element['word'] not in whitelist.values:
+                newList.append(element) 
+
+        return newList
