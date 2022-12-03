@@ -1,6 +1,6 @@
 # Data-Challenge-LesPetitsBots
 
-Projet réalisé lors du Data Challenge du 2 au 4 décembre 2022
+Projet réalisé lors du Data Challenge organisé par IA Pau du 2 au 4 décembre 2022
 
 ## Installation
 
