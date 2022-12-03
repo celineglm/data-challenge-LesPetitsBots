@@ -1,0 +1,5 @@
+fastapi[all]
+uvicorn
+pandas
+flair
+protobuf==3.20.*
