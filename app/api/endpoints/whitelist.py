@@ -5,14 +5,14 @@ from app.model import Whitelist
 
 router = APIRouter()
 
-@router.get("/route")
+@router.get("/whitelist")
 async def get_whitelist():
     df =  pd.read_csv("app/data/whitelist.csv")
     return {"message" : df}
 
 
-@router.put("/route")
-async def model_donnee_en_plus(Word:str):
-    new_word={"word":Word}
+@router.put("/whitelist/add")
+async def add_word(word:str):
+    new_word={"word":word}
     Whitelist.add_data(new_word)
     return {"message" : "une ligne a été rajouté à notre csv"}
