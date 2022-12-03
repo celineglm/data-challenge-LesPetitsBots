@@ -5,7 +5,7 @@ from app.model.Whitelist import get_data
 
 class Parser:
 
-    nlp : pipeline
+    nlp : pipeline = None
     customFilters : list
 
 
@@ -36,12 +36,15 @@ class Parser:
         for filter in self.customFilters:
             processedList = self._intermediate_parser(sentence, processedList, filter['regex'], filter['tag'])
 
-        #White list
-        whitelist = get_data()
+        if processedList:
+            #White list
+            whitelist = get_data()
 
-        newList = []
-        for element in processedList:
-            if element['word'] not in whitelist.values:
-                newList.append(element) 
+            newList = []
+            for element in processedList:
+                if element['word'] not in whitelist.values:
+                    newList.append(element)
 
-        return newList
+            return newList 
+
+        return processedList

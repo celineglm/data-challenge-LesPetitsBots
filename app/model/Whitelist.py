@@ -13,7 +13,7 @@ def add_data(row_dict):
     append_dict_as_row('app/data/whitelist.csv', row_dict, field_names)
 
 def get_data():
-    return pd.read_csv('app/datasource/whitelist.csv')
+    return pd.read_csv('app/data/whitelist.csv')
     
     
     
