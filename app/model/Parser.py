@@ -28,16 +28,20 @@ class Parser:
                 if not (e['start'] >= newList[0]['start'] and e['end'] <= newList[0]['end']):
                     newList.append(e)
                     
-                return newList
+            return newList
 
     def parse(self, sentence : str):
         processedList = self.nlp(sentence)
 
+        newList = []
+        for element in processedList:
+            if element['score'] > 0.95:
+                newList.append(element)
+
         for filter in self.customFilters:
-            processedList = self._intermediate_parser(sentence, processedList, filter['regex'], filter['tag'])
+            newList = self._intermediate_parser(sentence, newList, filter['regex'], filter['tag'])
 
         if processedList:
-            #White list
             whitelist = get_data()
 
             newList = []
