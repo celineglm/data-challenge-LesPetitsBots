@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.api.endpoints import predict
-from app.api.endpoints import route2
+from app.api.endpoints import whitelist
 
 from app.model.Parser import Parser
 
