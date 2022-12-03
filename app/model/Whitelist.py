@@ -1,6 +1,5 @@
 import pandas as pd
 from csv import DictWriter
-
 def append_dict_as_row(file_name, dict_of_elem, field_names):
     # Open file in append mode
     with open(file_name, 'a+', newline='') as write_obj:
@@ -11,7 +10,11 @@ def append_dict_as_row(file_name, dict_of_elem, field_names):
 
 def add_data(row_dict):
     field_names=list(row_dict.keys())
-    append_dict_as_row('app/datasource/whitelist.csv', row_dict, field_names)
+    append_dict_as_row('app/data/whitelist.csv', row_dict, field_names)
 
 def get_data():
     return pd.read_csv('app/datasource/whitelist.csv')
+    
+    
+    
+
