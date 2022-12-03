@@ -11,7 +11,7 @@ app = FastAPI(
 
 
 app.include_router(predict.router)
-app.include_router(route2.router)
+app.include_router(whitelist.router)
 
 customFilters = [
     {
