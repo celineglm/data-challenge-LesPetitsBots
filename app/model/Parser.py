@@ -45,12 +45,12 @@ class Parser:
         for filter in self.customFilters:
             newList = self._intermediate_parser(sentence, newList, filter['regex'], filter['tag'])
 
-        if processedList:
+        if newList:
             whitelist = get_data()
 
             tmpList = []
             for element in newList:
-                if element['word'] not in whitelist.values:
+                if element['word'] not in whitelist:
                     tmpList.append(element)
             newList = tmpList
 
