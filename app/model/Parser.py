@@ -1,4 +1,6 @@
 import re
+import faker
+
 from transformers import AutoTokenizer, AutoModelForTokenClassification, pipeline
 
 from app.model.Whitelist import get_data
@@ -19,7 +21,7 @@ class Parser:
     def _intermediate_parser(self, sentence : str, processedList: list, regex : str, tag : str):
         reg = re.compile(regex)
 
-        s = reg.search(sentence)
+        s = re.fullmatch(reg, sentence)
 
         if s:
             newList = [{'entity_group': tag, 'score': 1.0, 'word': sentence[s.start(): s.end()], 'start': s.start(), 'end': s.end()}]
@@ -30,12 +32,14 @@ class Parser:
                     
             return newList
 
+        return processedList
+
     def parse(self, sentence : str):
         processedList = self.nlp(sentence)
 
         newList = []
         for element in processedList:
-            if element['score'] > 0.95:
+            if element['score'] > 0.9:
                 newList.append(element)
 
         for filter in self.customFilters:
@@ -44,11 +48,39 @@ class Parser:
         if processedList:
             whitelist = get_data()
 
-            newList = []
-            for element in processedList:
+            tmpList = []
+            for element in newList:
                 if element['word'] not in whitelist.values:
-                    newList.append(element)
+                    tmpList.append(element)
+            newList = tmpList
 
-            return newList 
+        return newList
 
-        return processedList
+    def replace_by_tag(self, sentence : str, processedList : list):
+        for element in processedList:
+            sentence = sentence.replace(element['word'], element['entity_group'])
+
+        return sentence
+
+    def replace_by_fake(self, sentence : str, processedList : list):
+        fake = faker.Faker('fr_FR')
+
+        for element in processedList:
+            if(element['entity_group'] == 'PER'):
+                sentence = sentence.replace(element['word'], fake.name())
+            elif(element['entity_group'] == 'LOC'):
+                sentence = sentence.replace(element['word'], fake.address())
+            elif(element['entity_group'] == 'DATE'):
+                sentence = sentence.replace(element['word'], fake.date())
+            elif(element['entity_group'] == 'ORG'): 
+                sentence = sentence.replace(element['word'], fake.company())
+            elif(element['entity_group'] == 'MAIL'):
+                sentence = sentence.replace(element['word'], fake.ascii_free_email())
+            elif(element['entity_group'] == 'PHONE'):
+                sentence = sentence.replace(element['word'], fake.phone_number())
+            elif(element['entity_group'] == 'IBAN'):
+                sentence = sentence.replace(element['word'], fake.iban())
+            else:
+                sentence = sentence.replace(element['word'], element['entity_group'])
+
+        return sentence

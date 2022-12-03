@@ -3,3 +3,4 @@ uvicorn
 pandas
 flair
 protobuf==3.20.*
+Faker

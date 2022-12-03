@@ -1,5 +1,5 @@
 from app.model.Parser import Parser
-from fastapi.responses import JSONResponse
+import json
 
 from fastapi import APIRouter
 router = APIRouter()
@@ -44,15 +44,18 @@ customFilters = [
 
 parser = Parser(customFilters)
 
-@router.post("/api/predict")
-async def predict_anonymous_data(sentence : str):
-    res = parser.parse(sentence)
-    return JSONResponse(content=res)
-
 @router.post("/api/predict/tag")
 async def replace_text_by_tag(sentence : str):
-    return {"Le modèle a prédit que ce texte contient ces données sensibles" :"balalala" }
+    resList = parser.parse(sentence)
+
+    res = parser.replace_by_tag(sentence, resList)
+    
+    return {'res': res}
 
 @router.post("/api/predict/fakedata")
 async def replace_text_by_fakedata(sentence : str):
-    return {"Le modèle a prédit que ce texte contient ces données sensibles" :"balalala" }
+    resList = parser.parse(sentence)
+
+    res = parser.replace_by_fake(sentence, resList)
+    
+    return {'res': res}
