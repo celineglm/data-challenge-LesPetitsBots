@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from fastapi.responses import FileResponse
 import pandas as pd
 
 from app.model import Whitelist
@@ -7,8 +8,7 @@ router = APIRouter()
 
 @router.get("/whitelist")
 async def get_whitelist():
-    df =  pd.read_csv("app/data/whitelist.csv")
-    return {"message" : df}
+    return FileResponse('app/data/whitelist.csv', media_type="text/csv")
 
 
 @router.put("/whitelist/add")
