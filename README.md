@@ -4,6 +4,8 @@ Projet réalisé lors du Data Challenge organisé par IA Pau du 2 au 4 décembre
 
 ## Installation
 
+`git clone git@github.com:celine742/Data-Challenge-LesPetitsBots.git`
+
 `pip install -r requirements.txt`
 
 ## Utilisation
