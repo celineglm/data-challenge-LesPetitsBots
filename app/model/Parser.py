@@ -69,9 +69,10 @@ class Parser:
             if(element['entity_group'] == 'PER'):
                 sentence = sentence.replace(element['word'], fake.name())
             elif(element['entity_group'] == 'LOC'):
-                sentence = sentence.replace(element['word'], fake.address())
+                sentence = sentence.replace(element['word'], fake.region())
             elif(element['entity_group'] == 'DATE'):
-                sentence = sentence.replace(element['word'], fake.date())
+                faked = (fake.day_of_month() + ' ' + fake.month_name() + ' ' + fake.year())
+                sentence = sentence.replace(element['word'], faked)
             elif(element['entity_group'] == 'ORG'): 
                 sentence = sentence.replace(element['word'], fake.company())
             elif(element['entity_group'] == 'MAIL'):
